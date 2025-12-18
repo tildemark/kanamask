@@ -1,6 +1,3 @@
-Here is a polished, professional README.md that highlights your live deployment and gives the project a "finished product" feel.
-You can overwrite your existing README.md with this content.
-README.md
 # 🎭 KANA-MASK (カナ-マスク)
 
 ![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)
@@ -71,13 +68,17 @@ services:
 networks:
   net:
     external: true
+```
 
-2. Github Package Visibility
+### 2. Github Package Visibility
 If Portainer fails to pull the image, ensure the package is public:
  * Go to your GitHub Profile → Packages.
  * Select kanamask.
  * Settings → Change visibility → Public.
-💻 Local Development
+
+---
+
+## 💻 Local Development
 To run this project locally on your machine:
  * Clone the repo:
    git clone [https://github.com/tildemark/kanamask.git](https://github.com/tildemark/kanamask.git)
@@ -90,8 +91,14 @@ cd kanamask
    npm run dev
 
  * View: Open http://localhost:3000.
-🤝 Contributing
+
+---
+
+## 🤝 Contributing
 Contributions are welcome! If you find a Japanese character that looks more like an English letter than our current mapping, please open an Issue or Pull Request.
-📄 License
+
+---
+
+## 📄 License
 Distributed under the MIT License.
 

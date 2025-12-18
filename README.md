@@ -100,6 +100,7 @@ cd kanamask
 ---
 
 ## 📂 Project Structure
+```bash
 ├── app/
 │   ├── icon.tsx           # Dynamic PWA Icon generator
 │   ├── layout.tsx         # Root layout + Metadata
@@ -111,6 +112,7 @@ cd kanamask
 │   └── converter.ts       # Character Mapping Logic
 ├── Dockerfile             # Production Image Build
 └── next.config.mjs        # PWA & Docker Config
+```
 
 ---
 

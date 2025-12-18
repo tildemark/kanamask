@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { convertToCryptic, StyleMode } from '../utils/converter';
 
 export default function Home() {
-  const [input, setInput] = useState('');
+  // CHANGED: Default value is now 'raptor'
+  const [input, setInput] = useState('raptor'); 
   const [mode, setMode] = useState<StyleMode>('basic');
   const [copied, setCopied] = useState(false);
 

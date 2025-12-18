@@ -3,53 +3,59 @@ import { useState } from 'react';
 import { convertToCryptic, StyleMode } from '../utils/converter';
 
 export default function Home() {
-  // Default initialized to 'raptor' as requested
   const [input, setInput] = useState('raptor');
   const [mode, setMode] = useState<StyleMode>('basic');
   const [statusMsg, setStatusMsg] = useState('');
 
   const output = convertToCryptic(input, mode);
 
-  const shareOrCopy = async () => {
+  // ACTION 1: Copy ONLY the username (For Gamers)
+  const copyToClipboard = async () => {
     if (!output) return;
+    try {
+      await navigator.clipboard.writeText(output);
+      setStatusMsg('USERNAME COPIED!');
+    } catch (err) {
+      setStatusMsg('ERROR COPYING');
+    }
+    setTimeout(() => setStatusMsg(''), 2000);
+  };
 
-    // 1. Try Native Mobile Share (Great for phones/tablets)
+  // ACTION 2: Share the App (For Friends)
+  const shareApp = async (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the copy when clicking share
+    
     if (navigator.share) {
       try {
         await navigator.share({
           title: 'KANA-MASK',
-          text: `My cryptic name is: ${output}\nGenerate yours at:`,
+          text: `Check out this cryptic name generator:`,
           url: 'https://kana.sanchez.ph',
         });
-        setStatusMsg('SHARED!');
+        setStatusMsg('OPENING SHARE...');
       } catch (err) {
-        // User cancelled share, do nothing
+        // User cancelled
       }
-    } 
-    // 2. Fallback to Clipboard (Desktop)
-    else {
+    } else {
+      // Fallback for desktop/unsupported
       try {
-        await navigator.clipboard.writeText(output);
-        setStatusMsg('COPIED TO CLIPBOARD');
+        await navigator.clipboard.writeText('https://kana.sanchez.ph');
+        setStatusMsg('LINK COPIED!');
       } catch (err) {
-        setStatusMsg('ERROR COPYING');
+        setStatusMsg('ERROR');
       }
     }
-
-    // Clear message after 2 seconds
     setTimeout(() => setStatusMsg(''), 2000);
   };
 
   return (
     <main className="min-h-screen bg-[#050505] text-slate-200 flex flex-col items-center justify-center p-4 selection:bg-cyan-500/30">
-      {/* Background Decorative Element */}
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cyan-900/20 blur-[120px] rounded-full" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-900/10 blur-[120px] rounded-full" />
       </div>
 
       <div className="w-full max-w-xl space-y-8">
-        {/* Logo Section */}
         <header className="text-center space-y-2">
           <h1 className="text-5xl font-black tracking-tighter italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
             KANA-MASK
@@ -60,7 +66,6 @@ export default function Home() {
         </header>
 
         <div className="space-y-6">
-          {/* Style Selector */}
           <div className="flex bg-slate-900/50 p-1 rounded-xl border border-white/5 shadow-inner">
             {(['basic', 'elite'] as StyleMode[]).map((m) => (
               <button
@@ -77,7 +82,6 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Input */}
           <div className="relative group">
             <input
               type="text"
@@ -92,9 +96,9 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Result Area (Click to Share/Copy) */}
+          {/* MAIN CARD: Clicks Copy Username Only */}
           <div 
-            onClick={shareOrCopy}
+            onClick={copyToClipboard}
             className="group relative cursor-pointer active:scale-[0.98] transition-transform"
           >
             <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
@@ -103,15 +107,30 @@ export default function Home() {
                 {output || "---"}
               </p>
               
-              {/* Dynamic Status Label */}
               <div className={`mt-6 flex items-center gap-2 text-cyan-500 font-bold text-[10px] tracking-[0.2em] transition-opacity ${statusMsg ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-                {statusMsg || 'CLICK TO SHARE / COPY'}
+                {statusMsg || 'CLICK TO COPY USERNAME'}
               </div>
             </div>
           </div>
+
+          {/* SECONDARY ACTION: Share App Link */}
+          <div className="flex justify-center">
+            <button
+              onClick={shareApp}
+              className="flex items-center gap-2 text-slate-500 hover:text-cyan-400 text-xs tracking-widest uppercase transition-colors px-4 py-2 rounded-lg hover:bg-white/5"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+              Share App Link
+            </button>
+          </div>
         </div>
 
-        {/* Footer */}
         <footer className="grid grid-cols-3 gap-4 pt-4">
           <div className="h-[1px] bg-gradient-to-r from-transparent to-slate-800 self-center"></div>
           <p className="text-[10px] text-slate-600 text-center uppercase">V1.0 Stable Build</p>

@@ -1,0 +1,16 @@
+{
+  "name": "KANA-MASK",
+  "short_name": "KANA-MASK",
+  "description": "Identity Obfuscation Protocol",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "/icon",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}

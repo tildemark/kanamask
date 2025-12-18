@@ -1,24 +1,25 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next"; // Import Viewport
 import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  // CRITICAL: This fixes the "Inferred Property" warning
-  metadataBase: new URL('https://kana.sanchez.ph'),
+export const viewport: Viewport = {
+  themeColor: "#050505",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
 
-  title: "KANA-MASK | Identity Obfuscation",
+export const metadata: Metadata = {
+  metadataBase: new URL('https://kana.sanchez.ph'),
+  title: "KANA-MASK",
   description: "Generate cryptic Japanese-style usernames.",
-  
-  // Explicit Open Graph metadata to satisfy the debugger
-  openGraph: {
-    title: "KANA-MASK | Identity Obfuscation",
-    description: "Generate cryptic Japanese-style usernames.",
-    url: 'https://kana.sanchez.ph',
-    siteName: 'KANA-MASK',
-    locale: 'en_US',
-    type: 'website',
+  manifest: "/manifest.json", // <-- Links the manifest
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "KANA-MASK",
   },
 };
 
